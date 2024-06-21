@@ -1,0 +1,140 @@
+Q1. Write a code to check NULL values 
+
+Select * from corona_virus  
+
+Q2. If NULL values are present, update them with zeros for all columns. 
+
+Select * from corona_virus where ‘Province’  is NULL OR ‘Country/Region’ is NULL OR ‘Latitude’ is NULL OR ‘Longitude’ is NULL OR ‘Date’  isNULL OR ‘Confirmed’ is NULL,’ Deaths’  is NULL OR ‘Recovered’  is NULL
+
+Q3. check total number of rows 
+SELECT COUNT(*) AS  Total _Records from corona_virus 
+
+
+Q4. Check what is start_date and end_date
+SELECT MIN(Date) AS start_date, MAX(Date) AS end_date FROM corona_virus; 
+ 
+
+Q5. Number of month present in dataset 
+SELECT count(distinct (month(dates)) AS num_month from corona_virus
+
+
+Q6. Find monthly average for confirmed, deaths, recovered
+  
+    SELECT 
+AVG(Confirmed ),
+AVG(Recovered),
+AVG(Deaths) ,
+MONTH(Dates) ,
+YEAR(Dates) 
+FROM corona_virus
+GROUP BY MONTH(Dates) ,YEAR(Dates);
+
+
+Q7.Find most frequent value for confirmed, deaths, recovered each month 
+
+    SELECT
+	EXTRACT(MONTH FROM Date) AS MONTH
+         max (confirmed) AS most_frequent_confirmed,
+	 max (Deaths) AS most_frequent_deaths,
+ 	 max (Recovered) AS most_frequent_recovered
+    FROM
+         corona_virus
+    GROUP BY
+	 EXTRACT(MONTH FROM Date);
+Q8. Find minimum values for confirmed, deaths, recovered per year  
+	SELECT 
+		EXTRACT(YEAR FROM date) AS year,
+		MIN(Confirmed) AS min_confirmed,
+		MIN(Deaths) AS min_deaths,
+		MIN(Recovered) AS min_recovered
+	FROM 
+		corona_virus
+	GROUP BY 
+		EXTRACT(YEAR FROM Date);
+	
+Q9. Find maximum values of confirmed, deaths, recovered per year
+	SELECT 
+		MAX(confirmed) ,
+		MAX(deaths) ,
+		MAX(recovered) 
+	FROM
+		 corona_virus
+	GROUP BY  YEAR (Dates);
+
+Q10. The total number of case of confirmed, deaths, recovered each month.
+SELECT 
+		SUM(Confirmed) ,
+		SUM(Recovered) ,
+		SUM(Deaths) ,
+		MONTH ( Dates) ,
+		YEAR (Dates)
+		
+FROM
+		 corona_virus
+GROUP BY MONTH ( Dates). YEAR (Dates);
+
+Q11. Check how corona virus spread out with respect to confirmed case  (Eg.: total confirmed cases, their average, variance & STDEV )
+SELECT 
+	SUM(confirmed) ,
+	AVG(confirmed), 
+	VARIANCE(confirmed), 
+	STDEV(confirmed), 
+	Dates
+FROM
+	 corona_virus
+GROUP BY Dates;
+
+
+12. Check how corona virus spread out with respect to death case per month   (Eg.: total deaths cases, their average, variance & STDEV )
+SELECT 
+	SUM(Confirmed) ,
+	SUM(deaths),
+	AVG(deaths), 
+	VARIANCE(deaths),
+	STDEV(deaths), 
+	MONTH (date) ,
+	YEAR (Dates)
+FROM 
+	corona_virus
+GROUP BY MONTH (Dates) , YEAR (Dates);
+
+
+Q13. Check how corona virus spread out with respect to recovered case  (Eg: total confirmed cases, their average, variance & STDEV
+
+SELECT  SUM (Confirmed), SUM(Recovered), AVG(Recovered) , variance (Recovered) , STDEV (Recovered) , dates from corona_virus  GROUP BY Dates;
+
+
+Q14. Find Country having highest number of the Confirmed case 
+
+SELECT 
+	country_region, 
+	SUM(confirmed) AS total_confirmed
+FROM corona_virus
+GROUP BY country_region
+ORDER BY total_confirmed DESC
+LIMIT 1;
+
+
+Q15. Find Country having lowest number of the death case
+SELECT 
+	country_region, 
+	SUM(deaths) AS total_deaths
+FROM corona_virus
+GROUP BY country_region
+ORDER BY total_deaths ASC
+LIMIT 1;
+
+
+Q16. Find top 5 countries having highest recovered case
+SELECT 
+	country_region, 
+	SUM(recovered) AS total_recovered
+FROM corona_virus
+GROUP BY country_region
+ORDER BY total_recovered DESC
+LIMIT 5;
+
+
+
+
+                    
